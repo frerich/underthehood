@@ -3,16 +3,7 @@ defmodule Underthehood do
   Documentation for `Underthehood`.
   """
 
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> Underthehood.hello()
-      :world
-
-  """
-  def hello do
-    :world
+  def terminal(socket, id \\ :terminal) do
+    Phoenix.LiveView.Helpers.live_render(socket, Underthehood.IexShellLive, id: id)
   end
 end
