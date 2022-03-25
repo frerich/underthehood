@@ -2,28 +2,27 @@ defmodule Underthehood.IexShellLive do
   @moduledoc false
 
   use Phoenix.LiveView, layout: {Underthehood.LayoutView, "live.html"}
-  alias Phoenix.LiveView.JS
+  alias Phoenix.LiveView.{JS, Socket}
 
-  def mount(_session, _params, %Phoenix.LiveView.Socket{id: id} = socket) do
-    {:ok, tty} = ExTTY.start_link(handler: self())
-
+  def mount(_session, _params, socket) do
     socket =
-      socket
-      |> assign(tty: tty)
-      |> assign(id: id)
+      if connected?(socket) do
+        {:ok, tty} = ExTTY.start_link(handler: self())
+        assign(socket, tty: tty)
+      else
+        socket
+      end
 
     {:ok, socket}
   end
 
-  def render(assigns) do
-    id = Map.fetch!(assigns, :id)
-
+  def render(%{socket: %Socket{id: id}} = assigns) do
     toggle_js =
       JS.show(to: "##{id} .terminal_element")
       |> JS.hide(to: "##{id} .placeholder_element")
 
     ~H"""
-    <div phx-hook="Terminal" id={@id} phx-click={toggle_js}>
+    <div phx-hook="Terminal" id={id} phx-click={toggle_js}>
       <div class="placeholder_element">
         <p>Peek under the hood...</p>
       </div>
@@ -32,11 +31,11 @@ defmodule Underthehood.IexShellLive do
     """
   end
 
-  def handle_info({:tty_data, data}, socket) do
-    {:noreply, push_event(socket, "print", %{data: data})}
+  def handle_info({:tty_data, data}, %Socket{id: id} = socket) do
+    {:noreply, push_event(socket, "print_#{id}", %{data: data})}
   end
 
-  def handle_event("key", %{"key" => key}, %{assigns: %{tty: tty}} = socket) do
+  def handle_event("key", %{"key" => key}, %Socket{assigns: %{tty: tty}} = socket) do
     ExTTY.send_text(tty, key)
     {:noreply, socket}
   end
