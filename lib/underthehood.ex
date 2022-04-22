@@ -2,8 +2,12 @@ defmodule Underthehood do
   @moduledoc """
   Documentation for `Underthehood`.
   """
+  use Phoenix.Component
 
-  def terminal(_socket, id \\ :terminal) do
-    Phoenix.LiveView.Helpers.live_component(%{module: Underthehood.IexShellLive, id: id})
+  def terminal(assigns) do
+    assigns
+    |> Map.put_new(:id, :terminal)
+    |> Map.put(:module, Underthehood.IexShellLive)
+    |> Phoenix.LiveView.Helpers.live_component()
   end
 end

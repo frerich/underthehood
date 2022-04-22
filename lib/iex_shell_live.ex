@@ -28,7 +28,7 @@ defmodule Underthehood.IexShellLive do
     ~H"""
     <div phx-hook="Terminal" id={component_id} phx-click={toggle_js}>
       <div class="placeholder_element">
-        <p>Peek under the hood...</p>
+        <%= render_slot(@inner_block) %>
       </div>
       <div class="terminal_element" style="display: none;" phx-update="ignore"></div>
     </div>
@@ -46,13 +46,20 @@ defmodule Underthehood.IexShellLive do
     {:ok, push_event(socket, "print_#{component_id}", %{data: data})}
   end
 
-  def update(%{id: component_id}, socket) do
+  def update(%{id: component_id} = assigns, socket) do
     if connected?(socket) do
       {:ok, helper_pid} =
         GenServer.start_link(Underthehood.IexShellLive.Helper, {self(), component_id})
 
       {:ok, tty} = ExTTY.start_link(handler: helper_pid)
-      {:ok, assign(socket, component_id: component_id, tty: tty)}
+
+      socket =
+        socket
+        |> assign(:component_id, component_id)
+        |> assign(:tty, tty)
+        |> assign(:inner_block, assigns.inner_block)
+
+      {:ok, socket}
     else
       {:ok, socket}
     end
