@@ -3,7 +3,7 @@ defmodule Underthehood do
   Documentation for `Underthehood`.
   """
 
-  def terminal(socket, id \\ :terminal) do
-    Phoenix.LiveView.Helpers.live_render(socket, Underthehood.IexShellLive, id: id)
+  def terminal(_socket, id \\ :terminal) do
+    Phoenix.LiveView.Helpers.live_component(%{module: Underthehood.IexShellLive, id: id})
   end
 end
