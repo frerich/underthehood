@@ -6,8 +6,8 @@ defmodule Underthehood.TerminalComponent do
 
   def render(%{component_id: component_id} = assigns) do
     toggle_js =
-      JS.show(to: "##{component_id} .terminal_element")
-      |> JS.hide(to: "##{component_id} .placeholder_element")
+      JS.toggle(to: "##{component_id} .terminal_element")
+      |> JS.toggle(to: "##{component_id} .placeholder_element")
 
     ~H"""
     <div phx-hook="Terminal" id={component_id} phx-click={toggle_js}>
