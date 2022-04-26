@@ -1,21 +1,3 @@
-defmodule Underthehood.IexShellLive.Helper do
-  @moduledoc false
-
-  use GenServer
-
-  @impl true
-  def init({view_pid, component_id}) do
-    {:ok, {view_pid, component_id}}
-  end
-
-  @impl true
-  def handle_info({:tty_data, data}, {view_pid, component_id} = state) do
-    Phoenix.LiveView.send_update(view_pid, Underthehood.IexShellLive, id: component_id, data: data)
-
-    {:noreply, state}
-  end
-end
-
 defmodule Underthehood.IexShellLive do
   @moduledoc false
 
@@ -50,8 +32,7 @@ defmodule Underthehood.IexShellLive do
 
   def update(%{id: component_id} = assigns, socket) do
     if connected?(socket) do
-      {:ok, helper_pid} =
-        GenServer.start_link(Underthehood.IexShellLive.Helper, {self(), component_id})
+      {:ok, helper_pid} = Underthehood.TTYOutputHandler.start(self(), component_id)
 
       {:ok, tty} = ExTTY.start_link(handler: helper_pid)
 
