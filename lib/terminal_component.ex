@@ -17,12 +17,9 @@ defmodule Underthehood.TerminalComponent do
   end
 
   def update(%{id: component_id} = assigns, socket) do
-    inner_block = Map.get(assigns, :inner_block, [])
-
     socket =
       socket
       |> assign(:component_id, component_id)
-      |> assign(:inner_block, inner_block)
       |> assign_tty(component_id)
 
     {:ok, socket}
