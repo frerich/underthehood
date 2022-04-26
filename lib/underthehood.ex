@@ -7,7 +7,7 @@ defmodule Underthehood do
   def terminal(assigns) do
     assigns
     |> Map.put_new(:id, :terminal)
-    |> Map.put(:module, Underthehood.IexShellLive)
+    |> Map.put(:module, Underthehood.TerminalComponent)
     |> Phoenix.LiveView.Helpers.live_component()
   end
 end

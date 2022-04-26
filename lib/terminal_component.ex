@@ -1,4 +1,4 @@
-defmodule Underthehood.IexShellLive do
+defmodule Underthehood.TerminalComponent do
   @moduledoc false
 
   use Phoenix.LiveComponent

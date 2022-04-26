@@ -14,7 +14,10 @@ defmodule Underthehood.TTYOutputHandler do
 
   @impl true
   def handle_info({:tty_data, data}, {view_pid, component_id} = state) do
-    Phoenix.LiveView.send_update(view_pid, Underthehood.IexShellLive, id: component_id, data: data)
+    Phoenix.LiveView.send_update(view_pid, Underthehood.TerminalComponent,
+      id: component_id,
+      data: data
+    )
 
     {:noreply, state}
   end
