@@ -31,21 +31,21 @@ defmodule Underthehood.TerminalComponent do
   end
 
   def update(%{id: component_id} = assigns, socket) do
-    if connected?(socket) do
-      {:ok, helper_pid} = Underthehood.TTYOutputHandler.start(self(), component_id)
+    socket =
+      if connected?(socket) do
+        {:ok, helper_pid} = Underthehood.TTYOutputHandler.start(self(), component_id)
 
-      {:ok, tty} = ExTTY.start_link(handler: helper_pid)
+        {:ok, tty} = ExTTY.start_link(handler: helper_pid)
 
-      socket =
         socket
         |> assign(:component_id, component_id)
         |> assign(:tty, tty)
         |> assign(:inner_block, assigns.inner_block)
+      else
+        socket
+      end
 
-      {:ok, socket}
-    else
-      {:ok, socket}
-    end
+    {:ok, socket}
   end
 
   def handle_event("key", %{"key" => key}, %Socket{assigns: %{tty: tty}} = socket) do
