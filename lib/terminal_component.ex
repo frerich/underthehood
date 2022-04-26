@@ -2,23 +2,12 @@ defmodule Underthehood.TerminalComponent do
   @moduledoc false
 
   use Phoenix.LiveComponent
-  alias Phoenix.LiveView.{JS, Socket}
+  alias Phoenix.LiveView.Socket
 
   def render(%{component_id: component_id} = assigns) do
-    toggle_js =
-      JS.show(to: "##{component_id} .terminal_element")
-      |> JS.hide(to: "##{component_id} .placeholder_element")
-
     ~H"""
-    <div phx-hook="Terminal" id={component_id} phx-click={toggle_js}>
-      <div class="placeholder_element">
-        <%= if @inner_block != [] do %>
-          <%= render_slot(@inner_block) %>
-        <% else %>
-          Open IEx
-        <% end %>
-      </div>
-      <div class="terminal_element" style="display: none;" phx-update="ignore"></div>
+    <div phx-hook="Terminal" id={component_id}>
+      <div class="xtermjs_container" phx-update="ignore"></div>
     </div>
     """
   end
