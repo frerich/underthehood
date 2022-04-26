@@ -3,23 +3,23 @@ defmodule Underthehood.TerminalComponent do
 
   use Phoenix.LiveComponent
 
-  def render(%{component_id: component_id} = assigns) do
+  def render(%{id: id} = assigns) do
     ~H"""
-    <div phx-hook="Terminal" id={component_id}>
+    <div phx-hook="Terminal" id={id}>
       <div class="xtermjs_container" phx-update="ignore"></div>
     </div>
     """
   end
 
-  def update(%{id: component_id, data: data}, socket) do
-    {:ok, push_event(socket, "print_#{component_id}", %{data: data})}
+  def update(%{id: id, data: data}, socket) do
+    {:ok, push_event(socket, "print_#{id}", %{data: data})}
   end
 
-  def update(%{id: component_id} = assigns, socket) do
+  def update(%{id: id} = assigns, socket) do
     socket =
       socket
-      |> assign(:component_id, component_id)
-      |> assign_tty(component_id)
+      |> assign(assigns)
+      |> assign_tty(id)
 
     {:ok, socket}
   end
@@ -29,9 +29,9 @@ defmodule Underthehood.TerminalComponent do
     {:noreply, socket}
   end
 
-  defp assign_tty(socket, component_id) do
+  defp assign_tty(socket, id) do
     if connected?(socket) do
-      {:ok, output_handler} = Underthehood.TTYOutputHandler.start(self(), component_id)
+      {:ok, output_handler} = Underthehood.TTYOutputHandler.start(self(), id)
 
       {:ok, tty} = ExTTY.start_link(handler: output_handler)
 
