@@ -23,33 +23,18 @@ defmodule Underthehood.TerminalComponent do
     """
   end
 
-  def render(assigns) do
-    ~H"""
-    <div>
-    </div>
-    """
-  end
-
   def update(%{id: component_id, data: data}, socket) do
     {:ok, push_event(socket, "print_#{component_id}", %{data: data})}
   end
 
   def update(%{id: component_id} = assigns, socket) do
+    inner_block = Map.get(assigns, :inner_block, [])
+
     socket =
-      if connected?(socket) do
-        {:ok, helper_pid} = Underthehood.TTYOutputHandler.start(self(), component_id)
-
-        {:ok, tty} = ExTTY.start_link(handler: helper_pid)
-
-        inner_block = Map.get(assigns, :inner_block, [])
-
-        socket
-        |> assign(:component_id, component_id)
-        |> assign(:tty, tty)
-        |> assign(:inner_block, inner_block)
-      else
-        socket
-      end
+      socket
+      |> assign(:component_id, component_id)
+      |> assign(:inner_block, inner_block)
+      |> assign_tty(component_id)
 
     {:ok, socket}
   end
@@ -57,5 +42,17 @@ defmodule Underthehood.TerminalComponent do
   def handle_event("key", %{"key" => key}, %Socket{assigns: %{tty: tty}} = socket) do
     ExTTY.send_text(tty, key)
     {:noreply, socket}
+  end
+
+  defp assign_tty(socket, component_id) do
+    if connected?(socket) do
+      {:ok, helper_pid} = Underthehood.TTYOutputHandler.start(self(), component_id)
+
+      {:ok, tty} = ExTTY.start_link(handler: helper_pid)
+
+      assign(socket, :tty, tty)
+    else
+      socket
+    end
   end
 end
