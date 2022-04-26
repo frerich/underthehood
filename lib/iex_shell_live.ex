@@ -1,4 +1,6 @@
 defmodule Underthehood.IexShellLive.Helper do
+  @moduledoc false
+
   use GenServer
 
   @impl true
