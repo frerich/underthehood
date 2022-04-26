@@ -22,7 +22,8 @@ defmodule Underthehood.MixProject do
   defp deps do
     [
       {:phoenix_live_view, "~> 0.17"},
-      {:extty, "~> 0.2"}
+      {:extty, "~> 0.2"},
+      {:credo, "~> 1.6", only: [:dev, :test], runtime: false}
     ]
   end
 end
