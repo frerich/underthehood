@@ -2,7 +2,6 @@ defmodule Underthehood.TerminalComponent do
   @moduledoc false
 
   use Phoenix.LiveComponent
-  alias Phoenix.LiveView.Socket
 
   def render(%{component_id: component_id} = assigns) do
     ~H"""
@@ -25,7 +24,7 @@ defmodule Underthehood.TerminalComponent do
     {:ok, socket}
   end
 
-  def handle_event("key", %{"key" => key}, %Socket{assigns: %{tty: tty}} = socket) do
+  def handle_event("key", %{"key" => key}, %{assigns: %{tty: tty}} = socket) do
     ExTTY.send_text(tty, key)
     {:noreply, socket}
   end
