@@ -12,7 +12,11 @@ defmodule Underthehood.TerminalComponent do
     ~H"""
     <div phx-hook="Terminal" id={component_id} phx-click={toggle_js}>
       <div class="placeholder_element">
-        <%= render_slot(@inner_block) %>
+        <%= if @inner_block != [] do %>
+          <%= render_slot(@inner_block) %>
+        <% else %>
+          Open IEx
+        <% end %>
       </div>
       <div class="terminal_element" style="display: none;" phx-update="ignore"></div>
     </div>
@@ -37,10 +41,12 @@ defmodule Underthehood.TerminalComponent do
 
         {:ok, tty} = ExTTY.start_link(handler: helper_pid)
 
+        inner_block = Map.get(assigns, :inner_block, [])
+
         socket
         |> assign(:component_id, component_id)
         |> assign(:tty, tty)
-        |> assign(:inner_block, assigns.inner_block)
+        |> assign(:inner_block, inner_block)
       else
         socket
       end
