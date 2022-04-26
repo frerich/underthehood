@@ -46,9 +46,9 @@ defmodule Underthehood.TerminalComponent do
 
   defp assign_tty(socket, component_id) do
     if connected?(socket) do
-      {:ok, helper_pid} = Underthehood.TTYOutputHandler.start(self(), component_id)
+      {:ok, output_handler} = Underthehood.TTYOutputHandler.start(self(), component_id)
 
-      {:ok, tty} = ExTTY.start_link(handler: helper_pid)
+      {:ok, tty} = ExTTY.start_link(handler: output_handler)
 
       assign(socket, :tty, tty)
     else
