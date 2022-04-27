@@ -3,9 +3,9 @@ defmodule Underthehood.TerminalComponent do
 
   use Phoenix.LiveComponent
 
-  def render(%{id: id} = assigns) do
+  def render(assigns) do
     ~H"""
-    <div phx-hook="Terminal" id={id}>
+    <div phx-hook="Terminal" id={@id}>
       <div class="xtermjs_container" phx-update="ignore"></div>
     </div>
     """
