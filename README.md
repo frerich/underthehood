@@ -1,9 +1,16 @@
 # Underthehood
 
-This library provides two LiveView components offering an interactive IEx terminal
-for interacting with the BEAM.
+## Introduction
 
-# Installation
+This library provides LiveView components offering interactive IEx terminals. This allows
+peeking 'under the hood' of your application - right in your web browser.
+
+Here's an example of what the `Underthehood.terminal_button/1` component looks
+like in practice:
+
+!(Video showing Underthehood in action)[https://raw.githubusercontent.com/frerich/underthehood/main/underthehood-demo.mov]
+
+## Installation
 
 1. Add `underthehood` to your project dependencies.
 
@@ -34,7 +41,7 @@ let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToke
 [..]
 ```
 
-# Credits
+## Credits
 
 This library was written by [Frerich Raabe](mailto:frerich.raabe@gmail.com), however it
 is really just standing on the shoulders of giants:
