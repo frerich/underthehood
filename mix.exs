@@ -13,7 +13,7 @@ defmodule Underthehood.MixProject do
       name: "Underthehood",
       source_url: "https://github.com/frerich/underthehood",
       docs: [
-        extras: ["README.md"],
+        extras: ["README.md", "LICENSE.md"],
         main: "readme"
       ]
     ]
@@ -42,8 +42,8 @@ defmodule Underthehood.MixProject do
 
   defp package do
     [
-      files: ~w(assets lib .formatter.exs mix.exs README.md),
-      licenses: ["BSD-3-Clause"],
+      files: ~w(assets lib .formatter.exs mix.exs README.md LICENSE.md),
+      licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/frerich/underthehood"}
     ]
   end
