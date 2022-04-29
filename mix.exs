@@ -4,10 +4,12 @@ defmodule Underthehood.MixProject do
   def project do
     [
       app: :underthehood,
+      description: description(),
       version: "0.1.0",
       elixir: "~> 1.12",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
+      package: package(),
       name: "Underthehood",
       source_url: "https://github.com/frerich/underthehood",
       docs: [
@@ -31,6 +33,18 @@ defmodule Underthehood.MixProject do
       {:extty, "~> 0.2"},
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:ex_doc, "~> 0.27", only: :dev, runtime: false}
+    ]
+  end
+
+  defp description do
+    "A collection of LiveView components for embedding IEx terminals into web pages."
+  end
+
+  defp package do
+    [
+      files: ~w(assets lib .formatter.exs mix.exs README.md),
+      licenses: ["BSD-3-Clause"],
+      links: %{"GitHub" => "https://github.com/frerich/underthehood"}
     ]
   end
 end
