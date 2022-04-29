@@ -12,7 +12,15 @@ https://user-images.githubusercontent.com/533425/165928339-b2591adc-da34-47e6-ae
 
 ## Installation
 
-1. Add `underthehood` to your project dependencies.
+1. Add `underthehood` to your list of dependencies in `mix.exs`:
+
+```elixir
+def deps do
+  [
+    {:underthehood, "~> 0.1.1"}
+  ]
+end
+```
 
 2. Register a Phoenix hook by editing the `app.js` script of your Phoenix project. This typically
 amounts to registering a hook along these lines:
