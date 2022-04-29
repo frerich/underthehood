@@ -36,7 +36,7 @@ let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToke
 
 # Credits
 
-This library was written by Frerich Raabe <frerich.raabe@gmail.com>, however it
+This library was written by [Frerich Raabe](mailto:frerich.raabe@gmail.com), however it
 is really just standing on the shoulders of giants:
 
 * [Phoenix LiveView](https://github.com/phoenixframework/phoenix_live_view) is what enables the interactivity
