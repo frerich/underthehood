@@ -8,7 +8,7 @@ peeking 'under the hood' of your application - right in your web browser.
 Here's an example of what the `Underthehood.terminal_button/1` component looks
 like in practice:
 
-!(Video showing Underthehood in action)[https://raw.githubusercontent.com/frerich/underthehood/main/underthehood-demo.mov]
+https://user-images.githubusercontent.com/533425/165928339-b2591adc-da34-47e6-ae82-166e5d464060.mov
 
 ## Installation
 
