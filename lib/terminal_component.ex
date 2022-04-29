@@ -25,7 +25,7 @@ defmodule Underthehood.TerminalComponent do
   end
 
   def handle_event("key", %{"key" => key}, %{assigns: %{tty: tty}} = socket) do
-    ExTTY.send_text(tty, key)
+    :ok = ExTTY.send_text(tty, key)
     {:noreply, socket}
   end
 
