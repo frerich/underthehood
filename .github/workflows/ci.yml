@@ -1,0 +1,75 @@
+name: Integration Testing
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    name: Build and test
+    runs-on: ubuntu-latest
+
+    env:
+      MIX_ENV: test
+
+    strategy:
+      matrix:
+        elixir: [1.12.3]
+        otp: [24.1]
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Elixir
+      uses: erlef/setup-beam@988e02bfe678367a02564f65ca2e37726dc0268f
+      with:
+        elixir-version: ${{ matrix.elixir }}
+        otp-version: ${{ matrix.otp }}
+
+    - name: Restore cached dependencies and build artifacts
+      uses: actions/cache@v2
+      with:
+        path: |
+          deps
+          _build
+        key: mix-${{ runner.os }}-${{ matrix.elixir }}-${{ matrix.otp }}-${{ hashFiles('**/mix.lock') }}
+
+    - name: Install dependencies
+      run: mix deps.get
+
+    - name: Check formatting
+      run: mix format --check-formatted
+
+    - name: Check for unused dependencies
+      run: mix deps.unlock --check-unused
+
+    - name: Compile dependencies
+      run: mix deps.compile
+
+    - name: Compile sources
+      run: mix compile --warnings-as-errors
+
+    - name: Run Credo
+      run: mix credo --strict
+
+    - name: Retrieve PLT Cache
+      uses: actions/cache@v1
+      id: plt-cache
+      with:
+        path: priv/plts
+        key: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-plts-${{ hashFiles('**/mix.lock', '**/dialyzer_options.exs') }}
+
+    - name: Create PLTs
+      if: steps.plt-cache.outputs.cache-hit != 'true'
+      run: |
+        mkdir -p priv/plts
+        mix dialyzer --plt
+
+    - name: Run Dialyzer
+      run: mix dialyzer --no-check --list-unused-filters
+
+    - name: Run tests
+      run: mix test
