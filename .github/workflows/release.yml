@@ -12,6 +12,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Set up Elixir
+        uses: erlef/setup-beam@988e02bfe678367a02564f65ca2e37726dc0268f
+        with:
+          elixir-version: 1.13.4
+          otp-version: 24.1
+
       - name: Create Release Package
         run: mix hex.build
 
@@ -21,13 +27,7 @@ jobs:
           files:
             underthehood-${{ github.ref }}.tar
 
-  publish:
-    name: Publish to Hex.pm
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
       - name: Publish to Hex.pm
-        uses: erlangpack/github-action@v1
+        run: mix hex.publish
         env:
           HEX_API_KEY: ${{ secrets.HEX_API_KEY }}
