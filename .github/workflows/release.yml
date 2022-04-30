@@ -30,7 +30,7 @@ jobs:
             underthehood-${{ github.ref_name }}.tar
 
       - name: Publish to Hex.pm
-        run: mix deps.get && mix hex.publish
+        run: mix deps.get && mix hex.publish --yes
         env:
           HEX_API_KEY: ${{ secrets.HEX_API_KEY }}
 
