@@ -25,7 +25,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files:
-            underthehood-${{ github.ref }}.tar
+            underthehood-${{ github.ref_name }}.tar
 
       - name: Publish to Hex.pm
         run: mix hex.publish
