@@ -17,7 +17,7 @@ https://user-images.githubusercontent.com/533425/165928339-b2591adc-da34-47e6-ae
 ```elixir
 def deps do
   [
-    {:underthehood, "~> 0.1.2"}
+    {:underthehood, "~> 0.1"}
   ]
 end
 ```
