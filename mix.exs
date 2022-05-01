@@ -11,7 +11,7 @@ defmodule Underthehood.MixProject do
       deps: deps(),
       package: package(),
       name: "Underthehood",
-      source_url: "https://github.com/frerich/underthehood",
+      source_url: github_url(),
       docs: [
         extras: ["README.md", "LICENSE.md"],
         main: "readme"
@@ -44,7 +44,11 @@ defmodule Underthehood.MixProject do
     [
       files: ~w(assets lib .formatter.exs mix.exs README.md LICENSE.md),
       licenses: ["MIT"],
-      links: %{"GitHub" => "https://github.com/frerich/underthehood"}
+      links: %{"GitHub" => github_url()}
     ]
+  end
+
+  defp github_url do
+    "https://github.com/frerich/underthehood"
   end
 end
