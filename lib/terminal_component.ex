@@ -6,7 +6,7 @@ defmodule Underthehood.TerminalComponent do
   def render(assigns) do
     ~H"""
     <div phx-hook="Terminal" id={@id}>
-      <div class="xtermjs_container" phx-update="ignore"></div>
+      <div class="xtermjs_container" phx-update="ignore" id={"xtermjs-container-#{@id}"}></div>
     </div>
     """
   end
