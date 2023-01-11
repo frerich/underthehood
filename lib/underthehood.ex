@@ -7,8 +7,9 @@ defmodule Underthehood do
   IEx terminals into templates.
   """
   use Phoenix.Component
+  import Underthehood.Helpers
 
-  import Phoenix.LiveView.Helpers, only: [live_component: 1]
+  maybe_import_live_view_helpers()
 
   @doc """
   Embed a little button (located in the top-right corner of the browser's
