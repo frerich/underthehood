@@ -8,8 +8,6 @@ defmodule Underthehood do
   """
   use Phoenix.Component
 
-  import Phoenix.LiveView.Helpers, only: [live_component: 1]
-
   @doc """
   Embed a little button (located in the bottom-right corner of the browser's
   viewport) which, when clicked, opens an IEx terminal. The terminal can be
