@@ -11,25 +11,26 @@ defmodule Underthehood do
   import Phoenix.LiveView.Helpers, only: [live_component: 1]
 
   @doc """
-  Embed a little button (located in the top-right corner of the browser's
+  Embed a little button (located in the bottom-right corner of the browser's
   viewport) which, when clicked, opens an IEx terminal. The terminal can be
   closed again by clicking the 'X' button in the top-right corner.
 
   This component is meant to be invoked using the HEex syntax for function
-  componets. An optional `id` assign can be passed if desired.
+  components. An optional `id` assign can be passed if desired.
 
   ## Examples
 
-      import Underthehood, only: [terminal_button: 1]
+      defmodule MyAppWeb.DemoLive do
+        use MyAppWeb, :live_view
 
-      # ...
+        import Underthehood, only: [terminal_button: 1]
 
-      def render(assigns) do
-        ~H\"""
-          <div>My markup</div>
-          ...
-          <.terminal_button/>
-        \"""
+        def render(assigns) do
+          ~H\"""
+            <div>My markup</div>
+            <.terminal_button/>
+          \"""
+        end
       end
   """
   def terminal_button(assigns) do
@@ -43,10 +44,11 @@ defmodule Underthehood do
   Embeds a LiveView component representing an interactive IEx terminal to the BEAM.
 
   Note that there is no built-in way to close this terminal. It's meant as a
-  building block for more complex integrations (see e.g. `Underthehood.terminal_button/1`).
+  building block for more complex integrations (see e.g.
+  `Underthehood.terminal_button/1`).
 
   This component is meant to be invoked using the HEex syntax for function
-  componets. An optional `id` assign can be passed if desired (e.g. in case
+  components. An optional `id` assign can be passed if desired (e.g. in case
   more than one terminal window should be shown):
 
   ## Examples
