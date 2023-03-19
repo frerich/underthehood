@@ -1,10 +1,11 @@
+---
 name: Integration Testing
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
@@ -21,42 +22,42 @@ jobs:
         otp: [24.1]
 
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Lint YAML files
-      run: yamllint .
+      - name: Lint YAML files
+        run: yamllint .
 
-    - name: Set up Elixir
-      uses: erlef/setup-beam@v1
-      with:
-        elixir-version: ${{ matrix.elixir }}
-        otp-version: ${{ matrix.otp }}
+      - name: Set up Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: ${{ matrix.elixir }}
+          otp-version: ${{ matrix.otp }}
 
-    - name: Restore cached dependencies and build artifacts
-      uses: actions/cache@v2
-      with:
-        path: |
-          deps
-          _build
-        key: mix-${{ runner.os }}-${{ matrix.elixir }}-${{ matrix.otp }}-${{ hashFiles('**/mix.lock') }}
+      - name: Restore cached dependencies and build artifacts
+        uses: actions/cache@v2
+        with:
+          path: |
+            deps
+            _build
+          key: mix-${{ runner.os }}-${{ matrix.elixir }}-${{ matrix.otp }}-${{ hashFiles('**/mix.lock') }}
 
-    - name: Install dependencies
-      run: mix deps.get
+      - name: Install dependencies
+        run: mix deps.get
 
-    - name: Check formatting
-      run: mix format --check-formatted
+      - name: Check formatting
+        run: mix format --check-formatted
 
-    - name: Check for unused dependencies
-      run: mix deps.unlock --check-unused
+      - name: Check for unused dependencies
+        run: mix deps.unlock --check-unused
 
-    - name: Compile dependencies
-      run: mix deps.compile
+      - name: Compile dependencies
+        run: mix deps.compile
 
-    - name: Compile sources
-      run: mix compile --warnings-as-errors
+      - name: Compile sources
+        run: mix compile --warnings-as-errors
 
-    - name: Run Credo
-      run: mix credo --strict
+      - name: Run Credo
+        run: mix credo --strict
 
-    - name: Run tests
-      run: mix test
+      - name: Run tests
+        run: mix test
