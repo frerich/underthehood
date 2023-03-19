@@ -25,7 +25,7 @@ end
 2. Register a Phoenix hook by editing the `app.js` script of your Phoenix project. This typically
 amounts to registering a hook along these lines:
 ```javascript
-import TerminalHook from "../../deps/underthehood/lib/hook"
+import TerminalHook from "underthehook"
 
 let Hooks = {}
 Hooks.Terminal = TerminalHook
