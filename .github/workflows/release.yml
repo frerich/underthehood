@@ -8,14 +8,14 @@ on:
 jobs:
   release:
     name: Create GitHub Release
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     permissions:
       contents: write
     steps:
       - uses: actions/checkout@v2
 
       - name: Set up Elixir
-        uses: erlef/setup-beam@988e02bfe678367a02564f65ca2e37726dc0268f
+        uses: erlef/setup-beam@v1
         with:
           elixir-version: 1.13.4
           otp-version: 24.1
