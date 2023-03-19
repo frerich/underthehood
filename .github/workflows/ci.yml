@@ -23,6 +23,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Lint YAML files
+      run: yamllint .
+
     - name: Set up Elixir
       uses: erlef/setup-beam@v1
       with:
