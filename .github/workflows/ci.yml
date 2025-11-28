@@ -11,7 +11,7 @@ jobs:
   build:
 
     name: Build and test
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     env:
       MIX_ENV: test
@@ -22,7 +22,7 @@ jobs:
         otp: [26.2.5.16, 28.1.1]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v5
 
       - name: Lint YAML files
         run: yamllint .
@@ -34,7 +34,7 @@ jobs:
           otp-version: ${{ matrix.otp }}
 
       - name: Restore cached dependencies and build artifacts
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: |
             deps
