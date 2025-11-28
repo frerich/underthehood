@@ -7,8 +7,12 @@ defmodule Underthehood.TerminalButtonComponent do
   import Underthehood, only: [terminal: 1]
 
   def update(assigns, socket) do
-    terminal_id = "#{assigns.id}_terminal"
-    {:ok, assign(socket, :terminal_id, terminal_id)}
+    socket =
+      socket
+      |> assign(assigns)
+      |> assign(:terminal_id, "#{assigns.id}_terminal")
+
+    {:ok, socket}
   end
 
   def render(assigns) do
