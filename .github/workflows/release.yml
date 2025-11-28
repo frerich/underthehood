@@ -18,8 +18,8 @@ jobs:
       - name: Set up Elixir
         uses: erlef/setup-beam@v1
         with:
-          elixir-version: 1.13.4
-          otp-version: 24.1
+          elixir-version: 1.19.4
+          otp-version: 28.1.1
 
       - name: Create Release Package
         run: mix hex.build
