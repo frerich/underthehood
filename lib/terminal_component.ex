@@ -16,10 +16,19 @@ defmodule Underthehood.TerminalComponent do
   end
 
   def update(%{id: id} = assigns, socket) do
+    # an explicit `audit_callback` wins; otherwise the built-in transcript logger, which returns nil
+    # (the no-op path) when `audit_level` or config says off
+    on_data =
+      Map.get(assigns, :audit_callback) ||
+        Underthehood.Audit.observer(
+          label: Map.get(assigns, :audit_label),
+          level: Map.get(assigns, :audit_level)
+        )
+
     socket =
       socket
       |> assign(assigns)
-      |> assign_tty(id)
+      |> assign_tty(id, on_data)
 
     {:ok, socket}
   end
@@ -29,9 +38,9 @@ defmodule Underthehood.TerminalComponent do
     {:noreply, socket}
   end
 
-  defp assign_tty(socket, id) do
+  defp assign_tty(socket, id, on_data) do
     if connected?(socket) do
-      {:ok, output_handler} = Underthehood.TTYOutputHandler.start(self(), id)
+      {:ok, output_handler} = Underthehood.TTYOutputHandler.start(self(), id, on_data: on_data)
 
       {:ok, tty} = ExTTY.start_link(handler: output_handler)
 
